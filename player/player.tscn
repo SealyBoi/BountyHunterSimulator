@@ -1,0 +1,38 @@
+[gd_scene load_steps=6 format=3 uid="uid://jrg0iof31qdb"]
+
+[ext_resource type="Script" path="res://player/Player.gd" id="1_wylt6"]
+[ext_resource type="Texture2D" uid="uid://bbt63dcotvibj" path="res://art/player/vgd_char1_1.png" id="2_xgtnf"]
+[ext_resource type="PackedScene" uid="uid://bjodagyghqfyk" path="res://player/guns/gun.tscn" id="3_vssfg"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_rbu2a"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xgtnf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8cp40"]
+size = Vector2(80, 81)
+
+[node name="Player" type="CharacterBody2D"]
+script = ExtResource("1_wylt6")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_rbu2a")
+offset = Vector2(0, -15)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1.5)
+shape = SubResource("RectangleShape2D_8cp40")
+
+[node name="DashCooldown" type="Timer" parent="."]
+wait_time = 2.0
+
+[node name="Gun" parent="." instance=ExtResource("3_vssfg")]
+
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]

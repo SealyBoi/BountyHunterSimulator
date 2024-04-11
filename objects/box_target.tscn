@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://cqhqn2omr75cm"]
+
+[ext_resource type="Texture2D" uid="uid://bwktkuovkq6ut" path="res://art/icon.svg" id="1_psnyf"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rcjs3"]
+size = Vector2(64, 64)
+
+[node name="BoxTarget" type="RigidBody2D" groups=["enemy"]]
+gravity_scale = 0.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_psnyf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_rcjs3")

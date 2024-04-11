@@ -1,0 +1,115 @@
+[gd_scene load_steps=15 format=3 uid="uid://drvcudhv20bn1"]
+
+[ext_resource type="Script" path="res://enemies/BossBug.gd" id="1_xrt2h"]
+[ext_resource type="Texture2D" uid="uid://da673fyr6xijx" path="res://art/enemies/bug01/vgd_bug2_01.png" id="2_8v3rk"]
+[ext_resource type="Texture2D" uid="uid://dldjfma0846jd" path="res://art/enemies/bug01/vgd_bug2_02.png" id="3_llq4t"]
+[ext_resource type="Texture2D" uid="uid://0n75211cbuji" path="res://art/enemies/bug01/vgd_bug2_03.png" id="4_a6nrm"]
+[ext_resource type="Texture2D" uid="uid://dymuql0k1wc7b" path="res://art/enemies/bug02/vgd_bug1_01.png" id="5_gxy36"]
+[ext_resource type="Texture2D" uid="uid://bqnty6ub1cjb" path="res://art/enemies/bug02/vgd_bug1_02.png" id="6_bh32a"]
+[ext_resource type="Texture2D" uid="uid://din5imbncihde" path="res://art/enemies/bug02/vgd_bug1_03.png" id="7_8o331"]
+[ext_resource type="Texture2D" uid="uid://btijf1iq0iwow" path="res://art/enemies/bug02/vgd_bug1_04.png" id="8_g6r71"]
+[ext_resource type="Texture2D" uid="uid://7fby6dyn017m" path="res://art/enemies/bug02/vgd_bug1_05.png" id="9_04a1e"]
+[ext_resource type="Texture2D" uid="uid://kj0fs7ktu6tj" path="res://art/enemies/spawn/vgd_x.png" id="10_fow57"]
+[ext_resource type="Texture2D" uid="uid://beop131vwnvj0" path="res://art/enemies/spawn/vgd_dust.png" id="11_owpn4"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6yahr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_8v3rk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_llq4t")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_a6nrm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_llq4t")
+}],
+"loop": true,
+"name": &"bug01",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_gxy36")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bh32a")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_8o331")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_g6r71")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_04a1e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_g6r71")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_8o331")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_bh32a")
+}],
+"loop": true,
+"name": &"bug02",
+"speed": 6.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("10_fow57")
+}, {
+"duration": 1.0,
+"texture": ExtResource("11_owpn4")
+}],
+"loop": true,
+"name": &"spawn",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rcjs3"]
+size = Vector2(252, 166)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s8j6p"]
+size = Vector2(270, 188)
+
+[node name="BasicBug" type="CharacterBody2D" groups=["enemy"]]
+script = ExtResource("1_xrt2h")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(5, 5)
+sprite_frames = SubResource("SpriteFrames_6yahr")
+animation = &"spawn"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(9, 2)
+shape = SubResource("RectangleShape2D_rcjs3")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(8, 3)
+shape = SubResource("RectangleShape2D_s8j6p")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="NavTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="HitTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="SpawnTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="timeout" from="NavTimer" to="." method="_on_nav_timer_timeout"]
+[connection signal="timeout" from="HitTimer" to="." method="_on_hit_timer_timeout"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
