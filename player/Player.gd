@@ -17,14 +17,21 @@ var invulnerable = false
 var can_dash = true
 var dashing = false
 var last_dir = Vector2(1,0)
+var last_anim = "idle"
 var dash_acc = 0
 @export var DASH_TIME = 0.25
 @export var DASH_COOLDOWN = 2
+
+# Player Level variables
+var level = 0
+var xp_threshold = 100 # Amount of xp required to level up
+var xp = 0
 
 # Player HUD variables
 @onready var HUD = get_parent().get_node("UI/HUD")
 @onready var health_bar = HUD.get_node("HealthBar")
 @onready var dash_bar = HUD.get_node("DashBar")
+@onready var xp_bar = HUD.get_node("XpBar")
 
 func _ready():
 	health = MAX_HEALTH
@@ -35,6 +42,9 @@ func _ready():
 	dash_bar.value = DASH_COOLDOWN
 	dash_bar.step = DASH_COOLDOWN / 20
 	$DashCooldown.wait_time = DASH_COOLDOWN
+	
+	xp_bar.max_value = xp_threshold
+	xp_bar.value = xp
 	
 	anim.play("idle")
 	anim.flip_h = true
@@ -53,10 +63,10 @@ func dash_process(delta):
 		if dash_acc > DASH_TIME:
 			dashing = false
 			invulnerable = false
+			anim.play(last_anim)
 	elif not can_dash:
 		dash_acc += delta
 		dash_bar.value = dash_acc
-		anim.play("idle")
 		gun.visible = true
 	
 	if Input.is_action_just_pressed("dash") and can_dash:
@@ -64,6 +74,7 @@ func dash_process(delta):
 		dashing = true
 		invulnerable = true
 		dash_acc = 0
+		last_anim = anim.animation
 		if last_dir.x > 0:
 			anim.play("dash_left")
 		else:
@@ -96,3 +107,12 @@ func hit(damage):
 
 func reload():
 	get_tree().reload_current_scene()
+
+func gain_xp(gained_xp):
+	xp += gained_xp
+	if xp >= xp_threshold:
+		xp = 0
+		xp_threshold += 75
+		level += 1
+		xp_bar.max_value = xp_threshold
+	xp_bar.value = xp

@@ -9,5 +9,5 @@ func _on_area_2d_body_entered(body):
 	if body.is_in_group("enemy"):
 		body.hit(damage)
 		queue_free()
-	else:
+	elif not body.is_in_group("xp"):
 		queue_free()

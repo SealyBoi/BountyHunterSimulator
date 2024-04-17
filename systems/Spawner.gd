@@ -3,15 +3,21 @@ extends Node2D
 @onready var tilemap: TileMap = $TileMap
 @onready var enemy_scene = preload("res://enemies/basic_bug.tscn")
 @onready var boss_scene = preload("res://enemies/boss_bug.tscn")
-@export var spawn_time = 0.5
+@onready var survival_timer_label = $UI/HUD/SurvivalTimer
+@export var spawn_time = .75
 var tilemap_x = 0
 var tilemap_y = 0
 var tile_size = 64
+var total_survival_time = 0
 
 func _ready():
 	tilemap_x = (tilemap.get_used_rect().size.x - 8) / 2
 	tilemap_y = (tilemap.get_used_rect().size.y - 8) / 2
 	$SpawnUtilities/SpawnTimer.wait_time = spawn_time
+
+func _process(delta):
+	total_survival_time += delta
+	survival_timer_label.text = str(round(total_survival_time))
 
 func _on_spawn_timer_timeout():
 	var enemy = enemy_scene.instantiate()
