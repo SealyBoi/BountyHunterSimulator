@@ -29,7 +29,7 @@ func _on_nav_timer_timeout():
 	nav.set_target_position(player.global_position)
 
 func _on_spawn_timer_timeout():
-	anim.play("bug02")
+	anim.play("bossbug")
 	$CollisionShape2D.disabled = false
 	spawning = false
 

@@ -1,5 +1,11 @@
 extends CharacterBody2D
 
+# Player anim
+@onready var anim = $AnimatedSprite2D
+
+# Player gun
+@onready var gun = $Gun
+
 # Base player variables
 @export var SPEED = 500.0
 @export var DASH_SPEED = 1000.0
@@ -29,6 +35,9 @@ func _ready():
 	dash_bar.value = DASH_COOLDOWN
 	dash_bar.step = DASH_COOLDOWN / 20
 	$DashCooldown.wait_time = DASH_COOLDOWN
+	
+	anim.play("idle")
+	anim.flip_h = true
 
 func _physics_process(delta):
 	dash_process(delta)
@@ -47,12 +56,19 @@ func dash_process(delta):
 	elif not can_dash:
 		dash_acc += delta
 		dash_bar.value = dash_acc
+		anim.play("idle")
+		gun.visible = true
 	
 	if Input.is_action_just_pressed("dash") and can_dash:
 		can_dash = false
 		dashing = true
 		invulnerable = true
 		dash_acc = 0
+		if last_dir.x > 0:
+			anim.play("dash_left")
+		else:
+			anim.play("dash_right")
+		gun.visible = false
 		$DashCooldown.start()
 
 func move_process(delta):
@@ -62,7 +78,10 @@ func move_process(delta):
 	# Get the input direction and handle the movement/deceleration.
 	var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down").normalized()
 	if direction:
+		anim.play("walk")
 		last_dir = direction
+	else:
+		anim.play("idle")
 	velocity = direction * SPEED
 
 func _on_dash_cooldown_timeout():

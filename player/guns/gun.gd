@@ -3,7 +3,7 @@ extends AnimatedSprite2D
 # Gun variables
 @onready var bullet_scene = preload("res://player/bullets/bullet.tscn")
 var can_fire = true
-@export var fire_rate = 0.5
+@export var fire_rate = 0.25
 
 func _ready():
 	$FireRateTimer.wait_time = fire_rate
