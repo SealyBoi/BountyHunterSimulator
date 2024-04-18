@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://xwh0sej70gt3"]
+[gd_scene load_steps=26 format=3 uid="uid://xwh0sej70gt3"]
 
 [ext_resource type="Script" path="res://systems/MainCamera.gd" id="1_bf8xw"]
 [ext_resource type="Script" path="res://systems/Spawner.gd" id="1_lb1kk"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://jrg0iof31qdb" path="res://player/player.tscn" id="2_3xv15"]
 [ext_resource type="Texture2D" uid="uid://bwktkuovkq6ut" path="res://art/icon.svg" id="3_r1o4y"]
 [ext_resource type="Texture2D" uid="uid://dpysurd6gki68" path="res://art/tilesets/vgd_tileset_garden_sheet.png" id="5_lm1tq"]
+[ext_resource type="Script" path="res://systems/LevelUpScreen.gd" id="7_4s202"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j6xg1"]
 texture = ExtResource("3_r1o4y")
@@ -271,5 +272,114 @@ text = "300"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="LevelUpScreen" type="Control" parent="UI/HUD"]
+process_mode = 2
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("7_4s202")
+
+[node name="ColorRect" type="ColorRect" parent="UI/HUD/LevelUpScreen"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.592157)
+
+[node name="ItemOptions" type="HBoxContainer" parent="UI/HUD/LevelUpScreen"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 150
+alignment = 1
+
+[node name="Item1" type="VBoxContainer" parent="UI/HUD/LevelUpScreen/ItemOptions"]
+layout_mode = 2
+
+[node name="ItemName" type="Label" parent="UI/HUD/LevelUpScreen/ItemOptions/Item1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Item Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemButton" type="Button" parent="UI/HUD/LevelUpScreen/ItemOptions/Item1"]
+layout_mode = 2
+focus_neighbor_right = NodePath("../../Item2/ItemButton")
+icon = ExtResource("3_r1o4y")
+icon_alignment = 1
+
+[node name="ItemDesc" type="Label" parent="UI/HUD/LevelUpScreen/ItemOptions/Item1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Item Desc"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Item2" type="VBoxContainer" parent="UI/HUD/LevelUpScreen/ItemOptions"]
+layout_mode = 2
+
+[node name="ItemName" type="Label" parent="UI/HUD/LevelUpScreen/ItemOptions/Item2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Item Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemButton" type="Button" parent="UI/HUD/LevelUpScreen/ItemOptions/Item2"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../Item1/ItemButton")
+focus_neighbor_right = NodePath("../../Item3/ItemButton")
+icon = ExtResource("3_r1o4y")
+icon_alignment = 1
+
+[node name="ItemDesc" type="Label" parent="UI/HUD/LevelUpScreen/ItemOptions/Item2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Item Desc"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Item3" type="VBoxContainer" parent="UI/HUD/LevelUpScreen/ItemOptions"]
+layout_mode = 2
+
+[node name="ItemName" type="Label" parent="UI/HUD/LevelUpScreen/ItemOptions/Item3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Item Name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ItemButton" type="Button" parent="UI/HUD/LevelUpScreen/ItemOptions/Item3"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../Item2/ItemButton")
+icon = ExtResource("3_r1o4y")
+icon_alignment = 1
+
+[node name="ItemDesc" type="Label" parent="UI/HUD/LevelUpScreen/ItemOptions/Item3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Item Desc"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="timeout" from="SpawnUtilities/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="SpawnUtilities/BossTimer" to="." method="_on_boss_timer_timeout"]
+[connection signal="pressed" from="UI/HUD/LevelUpScreen/ItemOptions/Item1/ItemButton" to="UI/HUD/LevelUpScreen" method="_on_item1_button_pressed"]
+[connection signal="pressed" from="UI/HUD/LevelUpScreen/ItemOptions/Item2/ItemButton" to="UI/HUD/LevelUpScreen" method="_on_item2_button_pressed"]
+[connection signal="pressed" from="UI/HUD/LevelUpScreen/ItemOptions/Item3/ItemButton" to="UI/HUD/LevelUpScreen" method="_on_item3_button_pressed"]

@@ -32,6 +32,7 @@ var xp = 0
 @onready var health_bar = HUD.get_node("HealthBar")
 @onready var dash_bar = HUD.get_node("DashBar")
 @onready var xp_bar = HUD.get_node("XpBar")
+@onready var level_up = HUD.get_node("LevelUpScreen")
 
 func _ready():
 	health = MAX_HEALTH
@@ -115,4 +116,7 @@ func gain_xp(gained_xp):
 		xp_threshold += 75
 		level += 1
 		xp_bar.max_value = xp_threshold
+		level_up.visible = true
+		level_up.get_node("ItemOptions/Item2/ItemButton").grab_focus()
+		get_tree().paused = true
 	xp_bar.value = xp

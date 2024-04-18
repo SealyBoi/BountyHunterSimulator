@@ -33,3 +33,4 @@ func assign_random_pos():
 	var neg_x_mod = -1 if randi_range(0,2) == 0 else 1
 	var neg_y_mod = -1 if randi_range(0,2) == 0 else 1
 	return Vector2(randi_range(0, tilemap_x) * neg_x_mod * tile_size, randi_range(0, tilemap_y) * neg_y_mod * tile_size)
+

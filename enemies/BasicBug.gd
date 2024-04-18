@@ -41,14 +41,14 @@ func _on_spawn_timer_timeout():
 	spawning = false
 
 func assign_bug():
-	if randi() % 2 == 0:
-		anim.play("bug01")
-		SPEED += 50
-		bug = "bug01"
-	else:
+	if randi() % 4 == 0:
 		anim.play("bug02")
 		health += 2
 		bug = "bug02"
+	else:
+		anim.play("bug01")
+		SPEED += 50
+		bug = "bug01"
 
 func hit(damage):
 	health -= damage
