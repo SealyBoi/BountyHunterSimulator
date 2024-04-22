@@ -1,15 +1,17 @@
-[gd_scene load_steps=15 format=3 uid="uid://cbj62goc78k0l"]
+[gd_scene load_steps=17 format=3 uid="uid://cbj62goc78k0l"]
 
 [ext_resource type="Script" path="res://enemies/BasicBug.gd" id="1_2wjyb"]
 [ext_resource type="Texture2D" uid="uid://da673fyr6xijx" path="res://art/enemies/bugs/bug01/vgd_bug2_01.png" id="2_phokq"]
 [ext_resource type="Texture2D" uid="uid://kj0fs7ktu6tj" path="res://art/enemies/spawn/vgd_x.png" id="2_x8qfs"]
 [ext_resource type="Texture2D" uid="uid://dldjfma0846jd" path="res://art/enemies/bugs/bug01/vgd_bug2_02.png" id="3_mmedn"]
 [ext_resource type="Texture2D" uid="uid://0n75211cbuji" path="res://art/enemies/bugs/bug01/vgd_bug2_03.png" id="4_53dtx"]
+[ext_resource type="Texture2D" uid="uid://l68wnuto3kei" path="res://art/enemies/bugs/bug01/bug01_hurt.png" id="5_c6ei3"]
 [ext_resource type="Texture2D" uid="uid://52cwwq3bfqpo" path="res://art/enemies/bugs/bug02/vgd_bug1_001.png" id="5_vatuj"]
 [ext_resource type="Texture2D" uid="uid://u6hhn0dowqwi" path="res://art/enemies/bugs/bug02/vgd_bug1_002.png" id="6_06cyi"]
 [ext_resource type="Texture2D" uid="uid://drscaiadmlciu" path="res://art/enemies/bugs/bug02/vgd_bug1_003.png" id="7_5dcxv"]
 [ext_resource type="Texture2D" uid="uid://qw6txlrxcd3" path="res://art/enemies/bugs/bug02/vgd_bug1_004.png" id="8_iqcn6"]
 [ext_resource type="Texture2D" uid="uid://jj3jc075ssnm" path="res://art/enemies/bugs/bug02/vgd_bug1_005.png" id="9_irohf"]
+[ext_resource type="Texture2D" uid="uid://xualrc8hek55" path="res://art/enemies/bugs/bug02/bug02_hurt.png" id="11_cwgnr"]
 [ext_resource type="Texture2D" uid="uid://beop131vwnvj0" path="res://art/enemies/spawn/vgd_dust.png" id="11_vmg7t"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_6yahr"]
@@ -30,6 +32,14 @@ animations = [{
 "loop": true,
 "name": &"bug01",
 "speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_c6ei3")
+}],
+"loop": true,
+"name": &"bug01_hurt",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -62,6 +72,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("11_cwgnr")
+}],
+"loop": true,
+"name": &"bug02_hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("2_x8qfs")
 }, {
 "duration": 1.0,
@@ -84,7 +102,7 @@ script = ExtResource("1_2wjyb")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_6yahr")
-animation = &"bug02"
+animation = &"bug02_hurt"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, 0)

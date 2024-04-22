@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bax6l3x2nn7ya"
-path="res://.godot/imported/vgd_char1_01.png-684bee09d855098fbbfa2bdc05eb8813.ctex"
+uid="uid://b1m8tmyh7kn8b"
+path="res://.godot/imported/vgd_boss_dash.png-dd67af162b7af7e7a26aed6563055c0a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/player/anims/idle/vgd_char1_01.png"
-dest_files=["res://.godot/imported/vgd_char1_01.png-684bee09d855098fbbfa2bdc05eb8813.ctex"]
+source_file="res://art/enemies/bugs/bugboss/vgd_boss_dash.png"
+dest_files=["res://.godot/imported/vgd_boss_dash.png-dd67af162b7af7e7a26aed6563055c0a.ctex"]
 
 [params]
 

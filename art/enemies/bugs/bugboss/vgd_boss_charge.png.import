@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bax6l3x2nn7ya"
-path="res://.godot/imported/vgd_char1_01.png-684bee09d855098fbbfa2bdc05eb8813.ctex"
+uid="uid://dg8rdwgvhf61e"
+path="res://.godot/imported/vgd_boss_charge.png-09512dc6f36b08b69333bf527f963fe1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/player/anims/idle/vgd_char1_01.png"
-dest_files=["res://.godot/imported/vgd_char1_01.png-684bee09d855098fbbfa2bdc05eb8813.ctex"]
+source_file="res://art/enemies/bugs/bugboss/vgd_boss_charge.png"
+dest_files=["res://.godot/imported/vgd_boss_charge.png-09512dc6f36b08b69333bf527f963fe1.ctex"]
 
 [params]
 

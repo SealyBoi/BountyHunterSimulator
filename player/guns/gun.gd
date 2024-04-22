@@ -26,6 +26,7 @@ func _joystick_process(delta):
 
 func fire_process(delta):
 	if Input.is_action_pressed("fire") and can_fire:
+		play("fire")
 		var bul = bullet_scene.instantiate()
 		bul.position = $BulletSpawn.global_position
 		bul.rotation = rotation

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bax6l3x2nn7ya"
-path="res://.godot/imported/vgd_char1_01.png-684bee09d855098fbbfa2bdc05eb8813.ctex"
+uid="uid://c30v83u3n2imk"
+path="res://.godot/imported/vgd_gun1_05.png-a27a7367e50a7e52e4591c91bf1102e4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://art/player/anims/idle/vgd_char1_01.png"
-dest_files=["res://.godot/imported/vgd_char1_01.png-684bee09d855098fbbfa2bdc05eb8813.ctex"]
+source_file="res://art/player/guns/vgd_gun1_05.png"
+dest_files=["res://.godot/imported/vgd_gun1_05.png-a27a7367e50a7e52e4591c91bf1102e4.ctex"]
 
 [params]
 

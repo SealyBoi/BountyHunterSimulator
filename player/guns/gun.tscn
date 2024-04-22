@@ -1,21 +1,52 @@
-[gd_scene load_steps=4 format=3 uid="uid://bjodagyghqfyk"]
+[gd_scene load_steps=9 format=3 uid="uid://bjodagyghqfyk"]
 
-[ext_resource type="Texture2D" uid="uid://b7uk48kcnd7os" path="res://art/player/guns/vgd_gun1_1.png" id="1_u8314"]
+[ext_resource type="Texture2D" uid="uid://b7uk48kcnd7os" path="res://art/player/guns/vgd_gun1.png" id="1_6gi2d"]
+[ext_resource type="Texture2D" uid="uid://cfgx3q8j4n370" path="res://art/player/guns/vgd_gun1_01.png" id="2_ia3fo"]
 [ext_resource type="Script" path="res://player/guns/gun.gd" id="2_tqosi"]
+[ext_resource type="Texture2D" uid="uid://byjg4re2l14mm" path="res://art/player/guns/vgd_gun1_02.png" id="3_6pmd3"]
+[ext_resource type="Texture2D" uid="uid://pvs4s72rosdu" path="res://art/player/guns/vgd_gun1_03.png" id="4_5bjsw"]
+[ext_resource type="Texture2D" uid="uid://chxvxahygwmrm" path="res://art/player/guns/vgd_gun1_04.png" id="5_oxd04"]
+[ext_resource type="Texture2D" uid="uid://c30v83u3n2imk" path="res://art/player/guns/vgd_gun1_05.png" id="6_xlbdf"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dwk62"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_u8314")
+"texture": ExtResource("1_6gi2d")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_ia3fo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_6pmd3")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_5bjsw")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_oxd04")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_xlbdf")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_6gi2d")
+}],
+"loop": false,
+"name": &"fire",
+"speed": 25.0
 }]
 
 [node name="Gun" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_dwk62")
+animation = &"fire"
+frame = 5
+frame_progress = 1.0
 offset = Vector2(75, 0)
 flip_h = true
 script = ExtResource("2_tqosi")

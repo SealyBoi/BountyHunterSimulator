@@ -52,11 +52,20 @@ func assign_bug():
 
 func hit(damage):
 	health -= damage
+	if bug == "bug01":
+		anim.play("bug01_hurt")
+	else:
+		anim.play("bug02_hurt")
 	if health <= 0:
 		var rand = randi_range(1, 3)
 		for i in rand:
 			call_deferred("spawn_xp_blip")
 		queue_free()
+	await get_tree().create_timer(.1).timeout
+	if bug == "bug01":
+		anim.play("bug01")
+	else:
+		anim.play("bug02")
 
 func spawn_xp_blip():
 	var blip = xp_blip.instantiate()

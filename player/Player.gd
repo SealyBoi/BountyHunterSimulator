@@ -2,6 +2,7 @@ extends CharacterBody2D
 
 # Player anim
 @onready var anim = $AnimatedSprite2D
+var being_hit = false
 
 # Player gun
 @onready var gun = $Gun
@@ -51,6 +52,10 @@ func _ready():
 	anim.flip_h = true
 
 func _physics_process(delta):
+	# Easiest solution for now to fix the hurt anim is to just cancel all other actions for .1 seconds
+	if being_hit:
+		return
+	
 	dash_process(delta)
 	move_process(delta)
 
@@ -103,10 +108,14 @@ func hit(damage):
 	if not invulnerable:
 		health -= damage
 		health_bar.value = health
+		being_hit = true
+		anim.play("hurt")
 		if health <= 0:
-			call_deferred("reload")
+			call_deferred("reload_scene")
+		await get_tree().create_timer(0.1).timeout
+		being_hit = false
 
-func reload():
+func reload_scene():
 	get_tree().reload_current_scene()
 
 func gain_xp(gained_xp):
