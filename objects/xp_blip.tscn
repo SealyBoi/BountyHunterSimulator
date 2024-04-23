@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://kl3alyixonbb"]
 
 [ext_resource type="Script" path="res://objects/XP_Blip.gd" id="1_pdidg"]
-[ext_resource type="Texture2D" uid="uid://d32vt81ldq5dj" path="res://art/player/bullets/vgd_bullet1.png" id="2_uqjmm"]
+[ext_resource type="Texture2D" uid="uid://brknj6mwbw1gp" path="res://art/vgd_xp_green.png" id="2_xeour"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iyvag"]
 size = Vector2(64, 64)
@@ -13,7 +13,7 @@ gravity_scale = 0.0
 script = ExtResource("1_pdidg")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_uqjmm")
+texture = ExtResource("2_xeour")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_iyvag")

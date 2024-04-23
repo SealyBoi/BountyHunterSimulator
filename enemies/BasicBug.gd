@@ -12,9 +12,19 @@ var is_hitting = false
 var can_hit = true
 var bug: String
 
+signal dead
+
+func assign_dead(function):
+	dead.connect(function)
+
+# Bug02 projectile
+@onready var stinger_scene = preload("res://player/bullets/stinger.tscn")
+var can_fire = true
+
 func _ready():
 	anim.play("spawn")
 	$CollisionShape2D.disabled = true
+	$Area2D.monitoring = false
 	$SpawnTimer.start()
 
 func _physics_process(delta):
@@ -23,8 +33,11 @@ func _physics_process(delta):
 	
 	if not nav.is_navigation_finished() and bug == "bug01":
 		move()
-	elif position.distance_to(player.global_position) >= 500 and bug == "bug02":
-		move()
+	elif bug == "bug02":
+		if position.distance_to(player.global_position) >= 500:
+			move()
+		else:
+			shoot_at_player()
 
 func move():
 	var next_pos = nav.get_next_path_position()
@@ -32,12 +45,26 @@ func move():
 	velocity = (next_pos - curr_pos).normalized() * SPEED
 	move_and_slide()
 
+func shoot_at_player():
+	if not can_fire:
+		return
+	
+	var stinger = stinger_scene.instantiate()
+	stinger.position = position
+	stinger.look_at(player.global_position)
+	stinger.linear_velocity = stinger.position.direction_to(player.global_position) * 500
+	get_tree().get_root().add_child(stinger)
+	can_fire = false
+	await get_tree().create_timer(1).timeout
+	can_fire = true
+
 func _on_nav_timer_timeout():
 	nav.set_target_position(player.global_position)
 
 func _on_spawn_timer_timeout():
 	assign_bug()
 	$CollisionShape2D.disabled = false
+	$Area2D.monitoring = true
 	spawning = false
 
 func assign_bug():
@@ -60,6 +87,7 @@ func hit(damage):
 		var rand = randi_range(1, 3)
 		for i in rand:
 			call_deferred("spawn_xp_blip")
+		dead.emit()
 		queue_free()
 	await get_tree().create_timer(.1).timeout
 	if bug == "bug01":

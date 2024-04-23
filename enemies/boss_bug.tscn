@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://drvcudhv20bn1"]
+[gd_scene load_steps=15 format=3 uid="uid://drvcudhv20bn1"]
 
 [ext_resource type="Script" path="res://enemies/BossBug.gd" id="1_xrt2h"]
 [ext_resource type="Texture2D" uid="uid://bgwcfldajk05y" path="res://art/enemies/bugs/bugboss/vgd_boss1_01.png" id="2_6ywqa"]
@@ -6,6 +6,9 @@
 [ext_resource type="Texture2D" uid="uid://d4me234brg4sx" path="res://art/enemies/bugs/bugboss/vgd_boss1_03.png" id="4_p74ff"]
 [ext_resource type="Texture2D" uid="uid://dha7qftl786ox" path="res://art/enemies/bugs/bugboss/vgd_boss1_04.png" id="5_d5fhj"]
 [ext_resource type="Texture2D" uid="uid://b04agn8eox4iv" path="res://art/enemies/bugs/bugboss/vgd_boss1_05.png" id="6_l4rb0"]
+[ext_resource type="Texture2D" uid="uid://dg8rdwgvhf61e" path="res://art/enemies/bugs/bugboss/vgd_boss_charge.png" id="7_vw8da"]
+[ext_resource type="Texture2D" uid="uid://cuecymwwp51b3" path="res://art/enemies/bugs/bugboss/boss1_hurt.png" id="7_xp5o6"]
+[ext_resource type="Texture2D" uid="uid://b1m8tmyh7kn8b" path="res://art/enemies/bugs/bugboss/vgd_boss_dash.png" id="8_6epv4"]
 [ext_resource type="Texture2D" uid="uid://kj0fs7ktu6tj" path="res://art/enemies/spawn/vgd_x.png" id="10_fow57"]
 [ext_resource type="Texture2D" uid="uid://beop131vwnvj0" path="res://art/enemies/spawn/vgd_dust.png" id="11_owpn4"]
 
@@ -45,6 +48,41 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("2_6ywqa")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_vw8da")
+}],
+"loop": true,
+"name": &"charge",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("8_6epv4")
+}],
+"loop": true,
+"name": &"dash",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("7_xp5o6")
+}],
+"loop": true,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_p74ff")
+}],
+"loop": true,
+"name": &"rest",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("10_fow57")
 }, {
 "duration": 1.0,
@@ -62,13 +100,16 @@ size = Vector2(395, 246)
 size = Vector2(423, 270)
 
 [node name="BasicBug" type="CharacterBody2D" groups=["enemy"]]
+collision_layer = 16
+collision_mask = 16
 script = ExtResource("1_xrt2h")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -35)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_6yahr")
-animation = &"bossbug"
+animation = &"rest"
+frame_progress = 0.830822
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(7.5, 11)
