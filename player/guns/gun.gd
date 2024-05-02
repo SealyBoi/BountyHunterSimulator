@@ -3,7 +3,9 @@ extends AnimatedSprite2D
 # Gun variables
 @onready var bullet_scene = preload("res://player/bullets/bullet.tscn")
 var can_fire = true
-@export var fire_rate = 0.25
+@export var fire_rate = 0.45
+@export var damage = 1
+@export var pass_through = 1
 
 func _ready():
 	$FireRateTimer.wait_time = fire_rate
@@ -31,11 +33,16 @@ func fire_process(delta):
 		bul.position = $BulletSpawn.global_position
 		bul.rotation = rotation
 		bul.linear_velocity = bul.position.direction_to($Target.global_position) * 1000
+		bul.damage = damage
+		bul.pass_through = pass_through
 		get_tree().get_root().add_child(bul)
 		can_fire = false
 		$FireRateTimer.start()
 	elif Input.is_action_just_released("fire"):
-		can_fire = true
+		pass # can_fire = true
 
 func _on_fire_rate_timer_timeout():
 	can_fire = true
+
+func update_firerate():
+	$FireRateTimer.wait_time = fire_rate

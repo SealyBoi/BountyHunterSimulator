@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 @onready var anim = $AnimatedSprite2D
-@onready var player = get_parent().get_node("Player")
+@onready var player = get_tree().get_root().get_node("TestArea/Player")
 @onready var nav = $NavigationAgent2D
 @onready var xp_blip = preload("res://objects/xp_blip.tscn")
 @export var SPEED = 250
@@ -9,6 +9,7 @@ extends CharacterBody2D
 @export var damage = 1
 var spawning = true
 var is_hitting = false
+var being_hit = false
 var can_hit = true
 var bug: String
 
@@ -40,6 +41,10 @@ func _physics_process(delta):
 			shoot_at_player()
 
 func move():
+	if is_hitting or being_hit:
+		return
+	
+	anim.play(bug)
 	var next_pos = nav.get_next_path_position()
 	var curr_pos = global_position
 	velocity = (next_pos - curr_pos).normalized() * SPEED
@@ -49,6 +54,8 @@ func shoot_at_player():
 	if not can_fire:
 		return
 	
+	anim.play("bug02_attack")
+	is_hitting = true
 	var stinger = stinger_scene.instantiate()
 	stinger.position = position
 	stinger.look_at(player.global_position)
@@ -57,6 +64,7 @@ func shoot_at_player():
 	can_fire = false
 	await get_tree().create_timer(1).timeout
 	can_fire = true
+	is_hitting = false
 
 func _on_nav_timer_timeout():
 	nav.set_target_position(player.global_position)
@@ -79,21 +87,16 @@ func assign_bug():
 
 func hit(damage):
 	health -= damage
+	being_hit = true
 	if bug == "bug01":
 		anim.play("bug01_hurt")
 	else:
 		anim.play("bug02_hurt")
 	if health <= 0:
-		var rand = randi_range(1, 3)
-		for i in rand:
-			call_deferred("spawn_xp_blip")
-		dead.emit()
-		queue_free()
-	await get_tree().create_timer(.1).timeout
-	if bug == "bug01":
-		anim.play("bug01")
+		die()
 	else:
-		anim.play("bug02")
+		await get_tree().create_timer(.1, false).timeout
+		being_hit = false
 
 func spawn_xp_blip():
 	var blip = xp_blip.instantiate()
@@ -101,16 +104,30 @@ func spawn_xp_blip():
 	get_parent().add_child(blip)
 
 func _on_area_2d_body_entered(body):
-	if body.name == "Player":
+	if body.name == "Player" and bug == "bug01":
 		player.hit(damage)
 		is_hitting = true
+		anim.play("bug01_attack")
 		$HitTimer.start()
 
 func _on_area_2d_body_exited(body):
-	is_hitting = false
-	$HitTimer.stop()
+	if bug == "bug01":
+		is_hitting = false
+		$HitTimer.stop()
 
 func _on_hit_timer_timeout():
 	if is_hitting:
 		player.hit(damage)
 		$HitTimer.start()
+
+func die():
+	anim.play(bug + "_die")
+	$CollisionShape2D.set_deferred("disabled", true)
+	$Area2D.set_deferred("monitoring", false)
+	spawning = true
+	await get_tree().create_timer(1).timeout
+	var rand = randi_range(1, 3)
+	for i in rand:
+		call_deferred("spawn_xp_blip")
+	dead.emit()
+	queue_free()

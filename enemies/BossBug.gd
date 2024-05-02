@@ -2,10 +2,11 @@ extends CharacterBody2D
 
 @onready var anim = $AnimatedSprite2D
 @onready var player = get_parent().get_node("Player")
+@onready var gold_bag = load("res://objects/gold_bag.tscn")
 @onready var nav = $NavigationAgent2D
 @export var SPEED = 250
 @export var DASH_SPEED = 800
-@export var health = 60
+@export var health = 1
 @export var damage = 3
 var spawning = true
 var is_hitting = false
@@ -19,6 +20,11 @@ var is_dashing = false
 var is_resting = false
 var target_pos: Vector2
 var invincible = false
+
+signal dead
+
+func assign_dead(function):
+	dead.connect(function)
 
 func _ready():
 	anim.play("spawn")
@@ -61,20 +67,20 @@ func charge():
 	anim.play("charge")
 	is_charging = true
 	# After 'x' seconds of charging, dash
-	await get_tree().create_timer(charge_timer).timeout
+	await get_tree().create_timer(charge_timer, false).timeout
 	target_pos = player.global_position
 	anim.play("dash")
 	is_dashing = true
 	is_charging = false
 	invincible = true
 	# After 'x' seconds of dashing, rest
-	await get_tree().create_timer(dash_timer).timeout
+	await get_tree().create_timer(dash_timer, false).timeout
 	anim.play("rest")
 	is_resting = true
 	is_dashing = false
 	invincible = false
 	# After 'x' seconds of resting, back to cycle
-	await get_tree().create_timer(rest_timer).timeout
+	await get_tree().create_timer(rest_timer, false).timeout
 	anim.play("bossbug")
 	is_resting = false
 
@@ -106,10 +112,17 @@ func hit(damage):
 	last_anim = last_anim if anim.animation == "hurt" else anim.animation
 	anim.play("hurt")
 	if health <= 0:
+		dead.emit()
+		call_deferred("spawn_gold_bag")
 		queue_free()
 	else:
-		await get_tree().create_timer(.1).timeout
+		await get_tree().create_timer(.1, false).timeout
 		anim.play(last_anim)
+
+func spawn_gold_bag():
+	var bag = gold_bag.instantiate()
+	bag.position = position
+	get_parent().add_child(bag)
 
 func _on_area_2d_body_entered(body):
 	if body.name == "Player":

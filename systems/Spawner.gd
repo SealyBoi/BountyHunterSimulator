@@ -11,6 +11,8 @@ var tile_size = 64
 var total_survival_time = 0
 var total_enemies = 0
 @export var MAX_ENEMIES = 25
+var boss_is_dead = false
+var health_mod = 0
 
 func _ready():
 	tilemap_x = (tilemap.get_used_rect().size.x - 8) / 2
@@ -22,18 +24,20 @@ func _process(delta):
 	survival_timer_label.text = str(round(total_survival_time))
 
 func _on_spawn_timer_timeout():
-	if total_enemies >= MAX_ENEMIES:
+	if total_enemies >= MAX_ENEMIES or boss_is_dead:
 		return
 	
 	var enemy = enemy_scene.instantiate()
 	enemy.position = assign_random_pos()
 	enemy.assign_dead(decrement_total_enemies)
-	add_child(enemy)
+	get_node("EnemyPool").add_child(enemy)
+	enemy.health += health_mod
 	total_enemies += 1
 
 func _on_boss_timer_timeout():
 	var boss = boss_scene.instantiate()
 	boss.position = assign_random_pos()
+	boss.assign_dead(boss_died)
 	add_child(boss)
 
 func assign_random_pos():
@@ -43,3 +47,14 @@ func assign_random_pos():
 
 func decrement_total_enemies():
 	total_enemies -= 1
+
+func boss_died():
+	for enemy in $EnemyPool.get_children():
+		enemy.queue_free()
+	boss_is_dead = true
+
+func _on_difficulty_timer_timeout():
+	MAX_ENEMIES += 5
+	spawn_time -= .5
+	$SpawnUtilities/SpawnTimer.wait_time = .5 if spawn_time <= .5 else spawn_time
+	health_mod += 1

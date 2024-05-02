@@ -11,7 +11,7 @@ var being_hit = false
 @export var SPEED = 500.0
 @export var DASH_SPEED = 1000.0
 @export var health = 15
-const MAX_HEALTH = 15
+var MAX_HEALTH = 15
 var invulnerable = false
 
 # Dash variables
@@ -112,13 +112,17 @@ func hit(damage):
 		anim.play("hurt")
 		if health <= 0:
 			call_deferred("reload_scene")
-		await get_tree().create_timer(0.1).timeout
+		await get_tree().create_timer(0.1, false).timeout
 		being_hit = false
 
 func reload_scene():
 	get_tree().reload_current_scene()
 
 func gain_xp(gained_xp):
+	# Max level
+	if level >= 18:
+		return
+	
 	xp += gained_xp
 	if xp >= xp_threshold:
 		xp = 0
@@ -129,3 +133,24 @@ func gain_xp(gained_xp):
 		level_up.get_node("ItemOptions/Item2/ItemButton").grab_focus()
 		get_tree().paused = true
 	xp_bar.value = xp
+
+func modify_stat(stat: String, value: float):
+	match stat:
+		"health":
+			MAX_HEALTH += value
+			health += MAX_HEALTH
+			health_bar.value = health
+			health_bar.max_value = MAX_HEALTH
+		"fire_rate":
+			gun.fire_rate = gun.fire_rate - value
+			gun.update_firerate()
+		"speed":
+			SPEED +=  value
+		"dash_cooldown":
+			DASH_COOLDOWN = DASH_COOLDOWN - value
+			$DashCooldown.wait_time = DASH_COOLDOWN
+			dash_bar.max_value = DASH_COOLDOWN
+		"pierce":
+			gun.pass_through += value
+		"damage":
+			gun.damage += value

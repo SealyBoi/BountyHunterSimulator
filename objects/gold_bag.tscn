@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://ct4ooo8hmc8i4"]
+
+[ext_resource type="Script" path="res://objects/gold_bag.gd" id="1_fgth4"]
+[ext_resource type="Texture2D" uid="uid://b7n7fkwk37qof" path="res://art/bounty.png" id="2_i1phk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iyvag"]
+size = Vector2(143, 135)
+
+[node name="Gold_Bag" type="RigidBody2D" groups=["xp"]]
+collision_layer = 4
+collision_mask = 2
+gravity_scale = 0.0
+script = ExtResource("1_fgth4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(3, 3)
+texture = ExtResource("2_i1phk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, 17.5)
+shape = SubResource("RectangleShape2D_iyvag")
