@@ -68,6 +68,8 @@ func charge():
 	is_charging = true
 	# After 'x' seconds of charging, dash
 	await get_tree().create_timer(charge_timer, false).timeout
+	if spawning:
+		return
 	target_pos = player.global_position
 	anim.play("dash")
 	is_dashing = true
@@ -75,12 +77,16 @@ func charge():
 	invincible = true
 	# After 'x' seconds of dashing, rest
 	await get_tree().create_timer(dash_timer, false).timeout
+	if spawning:
+		return
 	anim.play("rest")
 	is_resting = true
 	is_dashing = false
 	invincible = false
 	# After 'x' seconds of resting, back to cycle
 	await get_tree().create_timer(rest_timer, false).timeout
+	if spawning:
+		return
 	anim.play("bossbug")
 	is_resting = false
 
@@ -113,6 +119,9 @@ func hit(damage):
 	anim.play("hurt")
 	if health <= 0:
 		dead.emit()
+		spawning = true
+		anim.play("dead")
+		await get_tree().create_timer(1).timeout
 		call_deferred("spawn_gold_bag")
 		queue_free()
 	else:

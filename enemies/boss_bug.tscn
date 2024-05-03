@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://drvcudhv20bn1"]
+[gd_scene load_steps=16 format=3 uid="uid://drvcudhv20bn1"]
 
 [ext_resource type="Script" path="res://enemies/BossBug.gd" id="1_xrt2h"]
 [ext_resource type="Texture2D" uid="uid://bgwcfldajk05y" path="res://art/enemies/bugs/bugboss/vgd_boss1_01.png" id="2_6ywqa"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://dg8rdwgvhf61e" path="res://art/enemies/bugs/bugboss/vgd_boss_charge.png" id="7_vw8da"]
 [ext_resource type="Texture2D" uid="uid://cuecymwwp51b3" path="res://art/enemies/bugs/bugboss/boss1_hurt.png" id="7_xp5o6"]
 [ext_resource type="Texture2D" uid="uid://b1m8tmyh7kn8b" path="res://art/enemies/bugs/bugboss/vgd_boss_dash.png" id="8_6epv4"]
+[ext_resource type="Texture2D" uid="uid://wp21fimhyc1a" path="res://art/enemies/bugs/bugboss/vgd_boss_dead.png" id="9_evaoc"]
 [ext_resource type="Texture2D" uid="uid://kj0fs7ktu6tj" path="res://art/enemies/spawn/vgd_x.png" id="10_fow57"]
 [ext_resource type="Texture2D" uid="uid://beop131vwnvj0" path="res://art/enemies/spawn/vgd_dust.png" id="11_owpn4"]
 
@@ -67,6 +68,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": ExtResource("9_evaoc")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": ExtResource("7_xp5o6")
 }],
 "loop": true,
@@ -109,8 +118,7 @@ health = 150
 position = Vector2(0, -35)
 scale = Vector2(3, 3)
 sprite_frames = SubResource("SpriteFrames_6yahr")
-animation = &"rest"
-frame_progress = 0.830822
+animation = &"dead"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(7.5, 11)
