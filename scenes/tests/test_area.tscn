@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://begeucwfthlvc" path="res://art/tilesets/black_tile.png" id="6_fjx7t"]
 [ext_resource type="Script" path="res://systems/LevelUpScreen.gd" id="7_4s202"]
 [ext_resource type="Script" path="res://scenes/tests/PauseScreen.gd" id="9_gkovt"]
-[ext_resource type="Texture2D" uid="uid://y2wwhyi37xhu" path="res://art/menus/vgd_play_02.png" id="10_ygmrc"]
+[ext_resource type="Texture2D" uid="uid://couakgicgf5p0" path="res://art/menus/vgd_back_02.png" id="11_fb421"]
 [ext_resource type="Texture2D" uid="uid://drgebearunhub" path="res://art/menus/vgd_quit_02.png" id="11_lrjt1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_j6xg1"]
@@ -144,21 +144,6 @@ sources/0 = SubResource("TileSetAtlasSource_j6xg1")
 sources/2 = SubResource("TileSetAtlasSource_5x8mm")
 sources/3 = SubResource("TileSetAtlasSource_ewoxc")
 
-[sub_resource type="Animation" id="Animation_3go68"]
-resource_name = "fade"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasModulate:color")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_08rw6"]
 length = 0.001
 tracks/0/type = "value"
@@ -172,6 +157,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_3go68"]
+resource_name = "fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_104bl"]
@@ -400,11 +400,13 @@ icon = ExtResource("3_r1o4y")
 icon_alignment = 1
 
 [node name="ItemDesc" type="Label" parent="UI/HUD/LevelUpScreen/ItemOptions/Item1"]
+custom_minimum_size = Vector2(200, 150)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Item Desc"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="Item2" type="VBoxContainer" parent="UI/HUD/LevelUpScreen/ItemOptions"]
 layout_mode = 2
@@ -424,11 +426,13 @@ icon = ExtResource("3_r1o4y")
 icon_alignment = 1
 
 [node name="ItemDesc" type="Label" parent="UI/HUD/LevelUpScreen/ItemOptions/Item2"]
+custom_minimum_size = Vector2(200, 150)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Item Desc"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="Item3" type="VBoxContainer" parent="UI/HUD/LevelUpScreen/ItemOptions"]
 layout_mode = 2
@@ -447,11 +451,13 @@ icon = ExtResource("3_r1o4y")
 icon_alignment = 1
 
 [node name="ItemDesc" type="Label" parent="UI/HUD/LevelUpScreen/ItemOptions/Item3"]
+custom_minimum_size = Vector2(200, 150)
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "Item Desc"
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="PauseScreen" type="Control" parent="UI/HUD"]
 process_mode = 2
@@ -492,7 +498,7 @@ alignment = 1
 layout_mode = 2
 theme_override_styles/normal = SubResource("StyleBoxEmpty_4spmg")
 theme_override_styles/hover = SubResource("StyleBoxFlat_br8ws")
-icon = ExtResource("10_ygmrc")
+icon = ExtResource("11_fb421")
 icon_alignment = 1
 
 [node name="Quit" type="Button" parent="UI/HUD/PauseScreen/Options"]

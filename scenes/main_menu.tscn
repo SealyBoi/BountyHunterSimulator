@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bya282xq87x01"]
+[gd_scene load_steps=18 format=3 uid="uid://bya282xq87x01"]
 
 [ext_resource type="Script" path="res://systems/MainMenu.gd" id="1_rue4c"]
 [ext_resource type="Texture2D" uid="uid://dey5nouwjbdsw" path="res://art/menus/vgd_main_menu_background_02.png" id="2_xeos7"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c1syxv0ln0ahs" path="res://art/buttons/right-joystick-all.png" id="7_moe2r"]
 [ext_resource type="Texture2D" uid="uid://da76hwyogikox" path="res://art/buttons/left-trigger.png" id="8_t2cbp"]
 [ext_resource type="Texture2D" uid="uid://dtnf7mv7fonmq" path="res://art/buttons/right-trigger.png" id="9_5t2mm"]
+[ext_resource type="Texture2D" uid="uid://couakgicgf5p0" path="res://art/menus/vgd_back_02.png" id="10_1gwbk"]
 [ext_resource type="AudioStream" uid="uid://c1s8wy5gupix2" path="res://sound/sfx_menu-beep.wav" id="10_xu7ky"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_of7mw"]
@@ -221,7 +222,7 @@ grow_horizontal = 2
 grow_vertical = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dwnuw")
 theme_override_styles/hover = SubResource("StyleBoxFlat_o8maj")
-icon = ExtResource("5_5131f")
+icon = ExtResource("10_1gwbk")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_xu7ky")
