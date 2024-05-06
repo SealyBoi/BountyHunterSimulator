@@ -8,6 +8,8 @@ extends Control
 @onready var tutorial_menu = $Tutorial
 @onready var back = $Tutorial/Back
 
+@onready var audio = $AudioStreamPlayer2D
+
 func _ready():
 	main.visible = true
 	play.disabled = false
@@ -15,6 +17,7 @@ func _ready():
 	quit.disabled = false
 	tutorial_menu.visible = false
 	back.disabled = true
+	play.grab_focus()
 
 func flip_menus():
 	main.visible = not main.visible
@@ -26,16 +29,22 @@ func flip_menus():
 
 
 func _on_play_pressed():
-	get_tree().change_scene_to_file("res://scenes/tests/test_area.tscn")
+	audio.play()
+	get_tree().change_scene_to_file("res://scenes/intro_cutscene.tscn")
 
 
 func _on_tutorial_pressed():
+	audio.play()
 	flip_menus()
+	back.grab_focus()
 
 
 func _on_back_pressed():
+	audio.play()
 	flip_menus()
+	play.grab_focus()
 
 
 func _on_quit_pressed():
+	audio.play()
 	get_tree().quit()

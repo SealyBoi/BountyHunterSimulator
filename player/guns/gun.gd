@@ -7,29 +7,44 @@ var can_fire = true
 @export var damage = 1
 @export var pass_through = 1
 @export var barrels = 1
+@onready var bullet_audio = $Bullet
 
 func _ready():
 	$FireRateTimer.wait_time = fire_rate
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	look_at(get_global_mouse_position())
+	
+	flip_player()
 	_joystick_process(delta)
 	fire_process(delta)
 
+func flip_player():
+	if get_global_mouse_position().x > 0:
+		flip_v = false
+		get_parent().get_node("AnimatedSprite2D").flip_h = true
+	else:
+		flip_v = true
+		get_parent().get_node("AnimatedSprite2D").flip_h = false
+
 func _joystick_process(delta):
 	var joyInput = Input.get_vector("look_left", "look_right", "look_up", "look_down")
-	if joyInput:
+	if joyInput != Vector2.ZERO:
 		if joyInput.x > 0:
 			flip_v = false
 			get_parent().get_node("AnimatedSprite2D").flip_h = true
 		else:
 			flip_v = true
 			get_parent().get_node("AnimatedSprite2D").flip_h = false
+		var mouseLoc = (get_viewport().get_visible_rect().size / 2) + (joyInput * 100)
+		Input.warp_mouse(mouseLoc)
 		rotation = joyInput.angle()
 
 func fire_process(delta):
 	if Input.is_action_pressed("fire") and can_fire:
 		play("fire")
+		bullet_audio.play()
 		
 		var bul_offset = -15 * (barrels - 1)
 		for barrel in barrels:

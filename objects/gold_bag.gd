@@ -14,4 +14,4 @@ func _physics_process(delta):
 			get_tree().call_deferred("return_to_menu")
 
 func return_to_menu():
-	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
+	get_tree().change_scene_to_file("res://scenes/end_cutscene.tscn")

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bjodagyghqfyk"]
+[gd_scene load_steps=10 format=3 uid="uid://bjodagyghqfyk"]
 
 [ext_resource type="Texture2D" uid="uid://b7uk48kcnd7os" path="res://art/player/guns/vgd_gun1.png" id="1_6gi2d"]
 [ext_resource type="Texture2D" uid="uid://cfgx3q8j4n370" path="res://art/player/guns/vgd_gun1_01.png" id="2_ia3fo"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://pvs4s72rosdu" path="res://art/player/guns/vgd_gun1_03.png" id="4_5bjsw"]
 [ext_resource type="Texture2D" uid="uid://chxvxahygwmrm" path="res://art/player/guns/vgd_gun1_04.png" id="5_oxd04"]
 [ext_resource type="Texture2D" uid="uid://c30v83u3n2imk" path="res://art/player/guns/vgd_gun1_05.png" id="6_xlbdf"]
+[ext_resource type="AudioStream" uid="uid://ebikaph8kywc" path="res://sound/sfx_bullet-fire.wav" id="8_2p4oq"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_dwk62"]
 animations = [{
@@ -59,5 +60,9 @@ position = Vector2(200, 0)
 
 [node name="FireRateTimer" type="Timer" parent="."]
 one_shot = true
+
+[node name="Bullet" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("8_2p4oq")
+volume_db = 15.0
 
 [connection signal="timeout" from="FireRateTimer" to="." method="_on_fire_rate_timer_timeout"]

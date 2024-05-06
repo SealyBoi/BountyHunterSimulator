@@ -11,8 +11,8 @@ extends Control
 @onready var quick_dash_img = preload("res://art/items/vgd_stop_watch.png")
 @onready var piercing_bullets_img = preload("res://art/items/vgd_spiked_bullet.png")
 @onready var fmj_rounds_img = preload("res://art/items/vgd_hot_bullet.png")
-@onready var armor_img = preload("res://art/icon.svg")
-@onready var extra_barrel_img = preload("res://art/icon.svg")
+@onready var armor_img = preload("res://art/items/vgd_iron_armor.png")
+@onready var extra_barrel_img = preload("res://art/items/vgd_xtra_barrels_01.png")
 
 # Item 1, 2, and 3
 @onready var item1_display = get_node("ItemOptions/Item1")

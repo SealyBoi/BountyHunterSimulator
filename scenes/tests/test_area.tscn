@@ -1,9 +1,10 @@
-[gd_scene load_steps=33 format=3 uid="uid://xwh0sej70gt3"]
+[gd_scene load_steps=37 format=3 uid="uid://xwh0sej70gt3"]
 
 [ext_resource type="Script" path="res://systems/MainCamera.gd" id="1_bf8xw"]
 [ext_resource type="Script" path="res://systems/Spawner.gd" id="1_lb1kk"]
 [ext_resource type="Texture2D" uid="uid://bayq4rs4gbafh" path="res://art/tilesets/vgd_tileset_garden.png" id="2_00f6m"]
 [ext_resource type="PackedScene" uid="uid://jrg0iof31qdb" path="res://player/player.tscn" id="2_3xv15"]
+[ext_resource type="AudioStream" uid="uid://rniiw80hinv4" path="res://sound/level-1.wav" id="2_iuhty"]
 [ext_resource type="Texture2D" uid="uid://bwktkuovkq6ut" path="res://art/icon.svg" id="3_r1o4y"]
 [ext_resource type="Texture2D" uid="uid://dpysurd6gki68" path="res://art/tilesets/vgd_tileset_garden_sheet.png" id="5_lm1tq"]
 [ext_resource type="Texture2D" uid="uid://begeucwfthlvc" path="res://art/tilesets/black_tile.png" id="6_fjx7t"]
@@ -143,6 +144,42 @@ sources/0 = SubResource("TileSetAtlasSource_j6xg1")
 sources/2 = SubResource("TileSetAtlasSource_5x8mm")
 sources/3 = SubResource("TileSetAtlasSource_ewoxc")
 
+[sub_resource type="Animation" id="Animation_3go68"]
+resource_name = "fade"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_08rw6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasModulate:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_104bl"]
+_data = {
+"RESET": SubResource("Animation_08rw6"),
+"fade": SubResource("Animation_3go68")
+}
+
 [sub_resource type="Gradient" id="Gradient_istlo"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(0, 0, 0, 0.270588)
@@ -206,6 +243,12 @@ bg_color = Color(1, 1, 1, 1)
 [node name="TestArea" type="Node2D"]
 script = ExtResource("1_lb1kk")
 
+[node name="LevelMusic" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+stream = ExtResource("2_iuhty")
+max_distance = 5000.0
+attenuation = 0.0192366
+
 [node name="SpawnUtilities" type="Node2D" parent="."]
 
 [node name="SpawnTimer" type="Timer" parent="SpawnUtilities"]
@@ -235,8 +278,12 @@ layer_0/tile_data = PackedInt32Array(-65540, 2, 0, -4, 2, 1, 65532, 2, 2, -65539
 [node name="EnemyPool" type="Node2D" parent="."]
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
-color = Color(0.615686, 0.615686, 0.615686, 1)
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_104bl")
+}
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -455,6 +502,7 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_br8ws")
 icon = ExtResource("11_lrjt1")
 icon_alignment = 1
 
+[connection signal="finished" from="LevelMusic" to="." method="_on_level_music_finished"]
 [connection signal="timeout" from="SpawnUtilities/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="SpawnUtilities/BossTimer" to="." method="_on_boss_timer_timeout"]
 [connection signal="timeout" from="SpawnUtilities/DifficultyTimer" to="." method="_on_difficulty_timer_timeout"]

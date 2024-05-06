@@ -21,12 +21,18 @@ var is_resting = false
 var target_pos: Vector2
 var invincible = false
 
+# Boss audio
+@onready var boss_audio = $Boss
+@onready var boss_arrival = preload("res://sound/sfx_boss-arrival.wav")
+@onready var boss_roar = preload("res://sound/sfx_boss-roar.wav")
+
 signal dead
 
 func assign_dead(function):
 	dead.connect(function)
 
 func _ready():
+	boss_audio.stream = boss_arrival
 	anim.play("spawn")
 	$CollisionShape2D.disabled = true
 	$Area2D.monitoring = false
@@ -71,6 +77,8 @@ func charge():
 	if spawning:
 		return
 	target_pos = player.global_position
+	boss_audio.stream = boss_roar
+	boss_audio.play()
 	anim.play("dash")
 	is_dashing = true
 	is_charging = false
@@ -105,6 +113,7 @@ func _on_nav_timer_timeout():
 	nav.set_target_position(player.global_position)
 
 func _on_spawn_timer_timeout():
+	boss_audio.play()
 	anim.play("bossbug")
 	$CollisionShape2D.disabled = false
 	$Area2D.monitoring = true

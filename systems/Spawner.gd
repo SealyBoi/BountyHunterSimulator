@@ -14,10 +14,14 @@ var total_enemies = 0
 var boss_is_dead = false
 var health_mod = 0
 
+@onready var level_audio = $LevelMusic
+
 func _ready():
 	tilemap_x = (tilemap.get_used_rect().size.x - 8) / 2
 	tilemap_y = (tilemap.get_used_rect().size.y - 8) / 2
 	$SpawnUtilities/SpawnTimer.wait_time = spawn_time
+	$AnimationPlayer.play("fade")
+	level_audio.play()
 
 func _process(delta):
 	total_survival_time += delta
@@ -58,3 +62,7 @@ func _on_difficulty_timer_timeout():
 	spawn_time -= .5
 	$SpawnUtilities/SpawnTimer.wait_time = .5 if spawn_time <= .5 else spawn_time
 	health_mod += 1
+
+
+func _on_level_music_finished():
+	level_audio.play()

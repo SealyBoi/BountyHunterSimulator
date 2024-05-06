@@ -143,6 +143,8 @@ one_shot = true
 [node name="SpawnTimer" type="Timer" parent="."]
 one_shot = true
 
+[node name="Boss" type="AudioStreamPlayer2D" parent="."]
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
 [connection signal="timeout" from="NavTimer" to="." method="_on_nav_timer_timeout"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bya282xq87x01"]
+[gd_scene load_steps=17 format=3 uid="uid://bya282xq87x01"]
 
 [ext_resource type="Script" path="res://systems/MainMenu.gd" id="1_rue4c"]
 [ext_resource type="Texture2D" uid="uid://dey5nouwjbdsw" path="res://art/menus/vgd_main_menu_background_02.png" id="2_xeos7"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c1syxv0ln0ahs" path="res://art/buttons/right-joystick-all.png" id="7_moe2r"]
 [ext_resource type="Texture2D" uid="uid://da76hwyogikox" path="res://art/buttons/left-trigger.png" id="8_t2cbp"]
 [ext_resource type="Texture2D" uid="uid://dtnf7mv7fonmq" path="res://art/buttons/right-trigger.png" id="9_5t2mm"]
+[ext_resource type="AudioStream" uid="uid://c1s8wy5gupix2" path="res://sound/sfx_menu-beep.wav" id="10_xu7ky"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_of7mw"]
 
@@ -74,6 +75,9 @@ alignment = 1
 
 [node name="Play" type="Button" parent="Main/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+focus_neighbor_right = NodePath("../Tutorial")
+focus_neighbor_bottom = NodePath("../../Quit")
+focus_next = NodePath("../Tutorial")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_of7mw")
 theme_override_styles/hover = SubResource("StyleBoxFlat_lldnq")
 icon = ExtResource("3_f22pp")
@@ -81,6 +85,10 @@ icon_alignment = 1
 
 [node name="Tutorial" type="Button" parent="Main/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../Play")
+focus_neighbor_bottom = NodePath("../../Quit")
+focus_next = NodePath("../../Quit")
+focus_previous = NodePath("../Play")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_of7mw")
 theme_override_styles/hover = SubResource("StyleBoxFlat_03phr")
 icon = ExtResource("4_r04dj")
@@ -88,6 +96,10 @@ icon_alignment = 1
 
 [node name="Quit" type="Button" parent="Main/VBoxContainer"]
 layout_mode = 2
+focus_neighbor_left = NodePath("../HBoxContainer/Play")
+focus_neighbor_top = NodePath("../HBoxContainer/Play")
+focus_neighbor_right = NodePath("../HBoxContainer/Tutorial")
+focus_previous = NodePath("../HBoxContainer/Tutorial")
 theme_override_styles/normal = SubResource("StyleBoxEmpty_of7mw")
 theme_override_styles/hover = SubResource("StyleBoxFlat_77yed")
 icon = ExtResource("5_5131f")
@@ -210,6 +222,9 @@ grow_vertical = 0
 theme_override_styles/normal = SubResource("StyleBoxEmpty_dwnuw")
 theme_override_styles/hover = SubResource("StyleBoxFlat_o8maj")
 icon = ExtResource("5_5131f")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_xu7ky")
 
 [connection signal="pressed" from="Main/VBoxContainer/HBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="Main/VBoxContainer/HBoxContainer/Tutorial" to="." method="_on_tutorial_pressed"]

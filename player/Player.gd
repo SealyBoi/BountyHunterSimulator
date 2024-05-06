@@ -36,6 +36,11 @@ var xp = 0
 @onready var xp_bar = HUD.get_node("XpBar")
 @onready var level_up = HUD.get_node("LevelUpScreen")
 
+# Player audio variables
+@onready var hurt_audio = $Hurt
+@onready var dash_audio = $Dash
+@onready var buy_item_audio = $BuyItem
+
 func _ready():
 	health = MAX_HEALTH
 	health_bar.max_value = MAX_HEALTH
@@ -84,6 +89,7 @@ func dash_process(delta):
 		gun.visible = true
 	
 	if Input.is_action_just_pressed("dash") and can_dash:
+		dash_audio.play()
 		can_dash = false
 		dashing = true
 		invulnerable = true
@@ -114,6 +120,7 @@ func _on_dash_cooldown_timeout():
 
 func hit(damage):
 	if not invulnerable:
+		hurt_audio.play()
 		health -= damage * (1 - damage_reduction)
 		health_bar.value = health
 		being_hit = true
@@ -124,7 +131,7 @@ func hit(damage):
 		being_hit = false
 
 func reload_scene():
-	get_tree().reload_current_scene()
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
 
 func gain_xp(gained_xp):
 	# Max level
@@ -143,6 +150,7 @@ func gain_xp(gained_xp):
 	xp_bar.value = xp
 
 func modify_stat(stat: String, value: float):
+	buy_item_audio.play()
 	match stat:
 		"health":
 			MAX_HEALTH += value
