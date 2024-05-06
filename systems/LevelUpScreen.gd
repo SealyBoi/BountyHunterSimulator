@@ -11,6 +11,8 @@ extends Control
 @onready var quick_dash_img = preload("res://art/items/vgd_stop_watch.png")
 @onready var piercing_bullets_img = preload("res://art/items/vgd_spiked_bullet.png")
 @onready var fmj_rounds_img = preload("res://art/items/vgd_hot_bullet.png")
+@onready var armor_img = preload("res://art/icon.svg")
+@onready var extra_barrel_img = preload("res://art/icon.svg")
 
 # Item 1, 2, and 3
 @onready var item1_display = get_node("ItemOptions/Item1")
@@ -18,13 +20,17 @@ extends Control
 @onready var item3_display = get_node("ItemOptions/Item3")
 
 # Max tier per upgrade is 3
-var maxed_tiers = 0 # Max is 6. If at 4, then we know to duplicate items
+var selected_items = [] # Array of five items the player has selected to upgrade
+var maxed_tiers = 0 # Max num of tiered items is 5, so if at 3 then we know to return duplicate items
+
 var health_tier = 0
 var fr_tier = 0
 var speed_tier = 0
 var dash_tier = 0
 var pen_tier = 0
 var dam_tier = 0
+var armor_tier = 0
+var barrel_tier = 0
 
 var item1: Item
 var item2: Item
@@ -52,6 +58,7 @@ func _on_item3_button_pressed():
 func continue_game(item: Item):
 	purchase_item(item)
 	increase_tier(item)
+	selected_items.append(item.mod)
 	unpause()
 	select_new_items()
 
@@ -72,6 +79,10 @@ func increase_tier(item: Item):
 			pen_tier += 1
 		"damage":
 			dam_tier += 1
+		"armor":
+			armor_tier += 1
+		"barrel":
+			barrel_tier += 1
 
 # Takes in an item and it's parent and modifies the appropriate text, icons, etc.
 func modify_item(item: Item, display: VBoxContainer):
@@ -104,22 +115,32 @@ func tier_is_max(mod: String):
 			tier = pen_tier
 		"damage":
 			tier = dam_tier
+		"armor":
+			tier = armor_tier
+		"barrel":
+			tier = barrel_tier
 	if tier >= 3:
 		return true
 	else:
 		return false
 
 func can_item_be_selected(item, item_num):
-	if maxed_tiers >= 4 or item1 == null:
-		return item
-	
-	if item2 == null and item != item1:
-		return item
-	
 	if tier_is_max(item.mod):
 		return select_random_item(item_num)
 	
-	match item_num:
+	if maxed_tiers >= 3: # Reached max tiers, so go ahead and return that item
+		return item
+	
+	if item1 == null: # If item1 is null, then return item
+		return item
+	
+	if item2 == null and item.mod != item1.mod: # If item2 is null, return if it does not equal item1
+		return item
+	
+	if item3 == null and item.mod != item1.mod and item.mod != item2.mod: # If item2 is null, return if it does not equal item1 or item2
+		return item
+	
+	match item_num: # Switch between which item slot is being filled
 		1:
 			if item.mod != item2.mod and item.mod != item3.mod:
 				return item
@@ -137,16 +158,20 @@ func can_item_be_selected(item, item_num):
 				return select_random_item(item_num)
 
 func select_random_item(item_num):
-	match randi_range(0, 5):
-		0:
-			return can_item_be_selected(Item.new("Can O' Beans", can_o_beans_img, "Increase health maximum", "health", 3), item_num)
+	match randi_range(1, 7):
 		1:
-			return can_item_be_selected(Item.new("Quick Trigger", quick_trigger_img, "Increase weapon fire rate", "fire_rate", 0.1), item_num)
+			return can_item_be_selected(Item.new("Can O' Beans", can_o_beans_img, "Increase health maximum", "health", 3), item_num)
 		2:
-			return can_item_be_selected(Item.new("Feather Boots", feather_boots_img, "Increase movement speed", "speed", 50), item_num)
+			return can_item_be_selected(Item.new("Quick Trigger", quick_trigger_img, "Increase weapon fire rate", "fire_rate", 0.1), item_num)
 		3:
-			return can_item_be_selected(Item.new("Quick Dash", quick_dash_img, "Decrease dash cooldown time", "dash_cooldown", 0.2), item_num)
+			return can_item_be_selected(Item.new("Feather Boots", feather_boots_img, "Increase movement speed", "speed", 50), item_num)
 		4:
-			return can_item_be_selected(Item.new("Piercing Bullets", piercing_bullets_img, "Increase bullet penetration", "pierce", 1), item_num)
+			return can_item_be_selected(Item.new("Quick Dash", quick_dash_img, "Decrease dash cooldown time", "dash_cooldown", 0.2), item_num)
 		5:
+			return can_item_be_selected(Item.new("Piercing Bullets", piercing_bullets_img, "Increase bullet penetration", "pierce", 1), item_num)
+		6:
 			return can_item_be_selected(Item.new("FMJ Rounds", fmj_rounds_img, "Increase bullet damage", "damage", 1), item_num)
+		7:
+			return can_item_be_selected(Item.new("Armor Vest", armor_img, "Decreases damage dealt by enemies", "armor", .1), item_num)
+		8:
+			return can_item_be_selected(Item.new("Extra Barrel", extra_barrel_img, "Increases number of bullets fired", "barrel", 1), item_num)

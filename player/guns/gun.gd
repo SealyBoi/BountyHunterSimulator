@@ -6,6 +6,7 @@ var can_fire = true
 @export var fire_rate = 0.45
 @export var damage = 1
 @export var pass_through = 1
+@export var barrels = 1
 
 func _ready():
 	$FireRateTimer.wait_time = fire_rate
@@ -29,17 +30,26 @@ func _joystick_process(delta):
 func fire_process(delta):
 	if Input.is_action_pressed("fire") and can_fire:
 		play("fire")
-		var bul = bullet_scene.instantiate()
-		bul.position = $BulletSpawn.global_position
-		bul.rotation = rotation
-		bul.linear_velocity = bul.position.direction_to($Target.global_position) * 1000
-		bul.damage = damage
-		bul.pass_through = pass_through
-		get_tree().get_root().add_child(bul)
+		
+		var bul_offset = -15 * (barrels - 1)
+		for barrel in barrels:
+			spawn_bullet(bul_offset)
+			
+			bul_offset += 30
+		
 		can_fire = false
 		$FireRateTimer.start()
 	elif Input.is_action_just_released("fire"):
 		pass # can_fire = true
+
+func spawn_bullet(offset):
+	var bul = bullet_scene.instantiate()
+	bul.position = $BulletSpawn.global_position
+	bul.rotation = rotation + deg_to_rad(offset)
+	bul.linear_velocity = (bul.position.direction_to($Target.global_position) * 1000).rotated(deg_to_rad(offset))
+	bul.damage = damage
+	bul.pass_through = pass_through
+	get_tree().get_root().add_child(bul)
 
 func _on_fire_rate_timer_timeout():
 	can_fire = true

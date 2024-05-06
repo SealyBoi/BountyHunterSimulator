@@ -13,6 +13,7 @@ var being_hit = false
 @export var health = 15
 var MAX_HEALTH = 15
 var invulnerable = false
+var damage_reduction = 0
 
 # Dash variables
 var can_dash = true
@@ -39,6 +40,7 @@ func _ready():
 	health = MAX_HEALTH
 	health_bar.max_value = MAX_HEALTH
 	health_bar.value = health
+	health_bar.step = 0.1
 	
 	dash_bar.max_value = DASH_COOLDOWN
 	dash_bar.value = DASH_COOLDOWN
@@ -50,6 +52,12 @@ func _ready():
 	
 	anim.play("idle")
 	anim.flip_h = true
+
+func _input(event):
+	if event.is_action_pressed("pause"):
+		get_parent().get_node("UI/HUD/PauseScreen").visible = true
+		get_parent().get_node("UI/HUD/PauseScreen/Options/Resume").grab_focus()
+		get_tree().paused = true
 
 func _physics_process(delta):
 	# Easiest solution for now to fix the hurt anim is to just cancel all other actions for .1 seconds
@@ -106,7 +114,7 @@ func _on_dash_cooldown_timeout():
 
 func hit(damage):
 	if not invulnerable:
-		health -= damage
+		health -= damage * (1 - damage_reduction)
 		health_bar.value = health
 		being_hit = true
 		anim.play("hurt")
@@ -154,3 +162,7 @@ func modify_stat(stat: String, value: float):
 			gun.pass_through += value
 		"damage":
 			gun.damage += value
+		"armor":
+			damage_reduction += value
+		"barrel":
+			gun.barrels += 1

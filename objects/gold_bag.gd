@@ -11,5 +11,7 @@ func _physics_process(delta):
 		if collision and collision.get_collider().name == "Player":
 			# Play money making animation and sound
 			# Return to menu/go to next level
-			get_tree().call_deferred("reload_current_scene")
-			queue_free()
+			get_tree().call_deferred("return_to_menu")
+
+func return_to_menu():
+	get_tree().change_scene_to_file("res://scenes/main_menu.tscn")
