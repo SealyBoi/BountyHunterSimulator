@@ -158,7 +158,7 @@ func can_item_be_selected(item, item_num):
 				return select_random_item(item_num)
 
 func select_random_item(item_num):
-	match randi_range(1, 7):
+	match randi_range(1, 8):
 		1:
 			return can_item_be_selected(Item.new("Can O' Beans", can_o_beans_img, "Increase health maximum", "health", 3), item_num)
 		2:
